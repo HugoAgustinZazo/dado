@@ -199,11 +199,11 @@ class MainActivity : AppCompatActivity() {
             binding.ganador.setText("Los jugadores no han obtenido ningun punto")
             binding.textView4.setText("¡¡Partida Terminada!!")
             binding.textView3.visibility = View.GONE
-        } else
+        } else {
             binding.ganador.setText("Enhorabuena el ganador es: " + jugadores[ganador - 1].nombre + " con " + jugadores[ganador - 1].puntuacion + " puntos")
             binding.textView4.setText("¡¡Partida Terminada!!")
             binding.textView3.visibility = View.GONE
-
+        }
     }
 
     private fun ocultar() {
