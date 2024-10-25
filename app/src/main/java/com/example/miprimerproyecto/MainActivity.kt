@@ -120,21 +120,25 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     cambiarTurno()
-                    binding.textView3.visibility = View.VISIBLE
-                } else {
-                    jugadores[jugador].puntuacionronda += numal
-                    binding.textView3.setText("El " + jugadores[jugador].nombre + " ha sacado un: $numal Total puntos ronda: " + jugadores[jugador].puntuacionronda)
+                        binding.textView3.visibility = View.VISIBLE
+                    } else {
+                        jugadores[jugador].puntuacionronda += numal
+                        binding.textView3.setText("El " + jugadores[jugador].nombre + " ha sacado un: $numal Total puntos ronda: " + jugadores[jugador].puntuacionronda)
+                    }
+                    var puntuaciones: TextView = binding.puntuacion
+                    puntuaciones.textSize = 16F
+                    var mensajepuntos = ""
+                    for (i in 1..opcion) {
+                        mensajepuntos =
+                            mensajepuntos.plus("Puntos del " + jugadores[i - 1].nombre + ": " + jugadores[i - 1].puntuacion + "\n\n")
+                    }
+                    puntuaciones.setText(mensajepuntos)
+                    mensajepuntos = ""
+                    binding.button3.visibility = View.VISIBLE
+                if(ronda>5){
+                    binding.button3.visibility = View.GONE
+                    binding.textView3.visibility = View.GONE
                 }
-                var puntuaciones: TextView = binding.puntuacion
-                puntuaciones.textSize = 16F
-                var mensajepuntos = ""
-                for (i in 1..opcion) {
-                    mensajepuntos =
-                        mensajepuntos.plus("Puntos del " + jugadores[i - 1].nombre + ": " + jugadores[i - 1].puntuacion + "\n\n")
-                }
-                puntuaciones.setText(mensajepuntos)
-                mensajepuntos = ""
-                binding.button3.visibility = View.VISIBLE
 
             }
 
@@ -169,6 +173,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun acabarPartida() {
+        ocultarDado()
         binding.button2.visibility = View.GONE
         binding.button3.visibility = View.GONE
         binding.textView2.visibility = View.GONE
@@ -190,9 +195,15 @@ class MainActivity : AppCompatActivity() {
                 ganador = jugadores[i-1].numjugador
             }
         }
-        binding.ganador.setText("Enhorabuena el ganador es: "+jugadores[ganador-1].nombre+" con "+jugadores[ganador-1].puntuacion+" puntos")
-        binding.textView4.setText("¡¡Partida Terminada!!")
-        binding.textView3.visibility = View.GONE
+        if(ganador==0) {
+            binding.ganador.setText("Los jugadores no han obtenido ningun punto")
+            binding.textView4.setText("¡¡Partida Terminada!!")
+            binding.textView3.visibility = View.GONE
+        } else
+            binding.ganador.setText("Enhorabuena el ganador es: " + jugadores[ganador - 1].nombre + " con " + jugadores[ganador - 1].puntuacion + " puntos")
+            binding.textView4.setText("¡¡Partida Terminada!!")
+            binding.textView3.visibility = View.GONE
+
     }
 
     private fun ocultar() {
