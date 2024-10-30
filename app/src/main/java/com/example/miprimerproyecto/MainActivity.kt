@@ -73,10 +73,6 @@ class MainActivity : AppCompatActivity() {
 
 
             boton.setOnClickListener {
-                for (i in 1..opcion) {
-                    jugadores.add(Jugador("Jugador " + i, 0, i, 0))
-                }
-
                 val valor = binding.editTextText.text.toString()
                 if(valor.isNotEmpty()) {
                     maxRondas = valor.toInt()

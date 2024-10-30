@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.miprimerproyecto.databinding.ActivityJugadoresBinding
 import com.example.miprimerproyecto.databinding.ActivitySecondBinding
 import kotlin.random.Random
 
@@ -21,18 +22,30 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivitySecondBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(R.layout.activity_second)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
          opcion = intent.getIntExtra("OPCION",0)
          maxRondas = intent.getIntExtra("MAXRONDAS",0)
 
+
+        for (i in 1..opcion) {
+            var name : String = intent.getStringExtra("Jugador"+i).toString()
+            jugadores.add(Jugador(name, 0, i, 0))
+        }
 
 
         val botontirar = binding.button2
         val botonplantarse = binding.button3
         binding.textView4.setText("Numero de Ronda: $ronda")
         binding.textView4.textSize = 25F
-        binding.textView2.setText("Turno del " + jugadores[jugador].nombre)
+        binding.textView2.setText("Turno de " + jugadores[jugador].nombre)
         binding.textView2.textSize = 18F
 
 
@@ -50,7 +63,7 @@ class SecondActivity : AppCompatActivity() {
 
             }
             binding.textView4.setText("Numero de Ronda: $ronda")
-            binding.textView2.setText("Turno del " + jugadores[jugador].nombre)
+            binding.textView2.setText("Turno de " + jugadores[jugador].nombre)
             binding.textView3.visibility = View.VISIBLE
 
             if (numal == 1) {
@@ -72,7 +85,7 @@ class SecondActivity : AppCompatActivity() {
             var mensajepuntos = ""
             for (i in 1..opcion) {
                 mensajepuntos =
-                    mensajepuntos.plus("Puntos del " + jugadores[i - 1].nombre + ": " + jugadores[i - 1].puntuacion + "\n\n")
+                    mensajepuntos.plus("Puntos de " + jugadores[i - 1].nombre + ": " + jugadores[i - 1].puntuacion + "\n\n")
             }
             puntuaciones.setText(mensajepuntos)
             mensajepuntos = ""

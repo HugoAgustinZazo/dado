@@ -1,8 +1,11 @@
 package com.example.miprimerproyecto
 
+import android.content.Intent
 import android.os.Bundle
 import android.service.autofill.Dataset
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +18,10 @@ import com.example.miprimerproyecto.databinding.ActivityMainBinding
 class JugadoresActivity : AppCompatActivity() {
     lateinit var binding: ActivityJugadoresBinding
     var jugadoress: ArrayList<RecyclerView> = ArrayList()
+    var TextViewss: ArrayList<TextView> = ArrayList()
+    var todosSeleccionados: ArrayList<Jugador> = ArrayList()
+    var maxRondas = 0
+    var opcion = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJugadoresBinding.inflate(layoutInflater)
@@ -27,8 +34,15 @@ class JugadoresActivity : AppCompatActivity() {
             insets
         }
 
-        val opcion = intent.getIntExtra("OPCION", 0)
-        val maxRondas = intent.getIntExtra("RONDAS", 0)
+         opcion = intent.getIntExtra("OPCION", 0)
+         maxRondas = intent.getIntExtra("RONDAS", 0)
+
+        añadirTextViews()
+
+        for(i in 1..TextViewss.size){
+            var tv: TextView = TextViewss[i-1]
+            formatoTexto(tv)
+        }
 
 
         if(opcion ==2){
@@ -79,16 +93,57 @@ class JugadoresActivity : AppCompatActivity() {
         )
 
         for(i in 1..opcion){
-            var rcv: RecyclerView = jugadoress[i-1]
+            val rcv: RecyclerView = jugadoress[i-1]
                 rellenarRecV(dataset,rcv)
+
+        }
+
+
+    }
+
+    fun rellenarRecV(dataset: Array<String>, rcv: RecyclerView) {
+
+            rcv.layoutManager = LinearLayoutManager(this)
+            rcv.adapter = CustomAdapter(dataset) { nombrejugador->
+                onItemSelected(
+                    nombrejugador
+                )
+            }
+    }
+
+    fun onItemSelected(nombreJugador: String){
+        var jugador = 0
+        todosSeleccionados.add(Jugador(nombreJugador,0,jugador,0))
+        Toast.makeText(this,"Jugador añadido: "+nombreJugador,Toast.LENGTH_SHORT).show()
+        jugador+=1
+        if (todosSeleccionados.size < jugadoress.size) {
+            todosSeleccionados.add(Jugador(nombreJugador,0,jugador,0))
+            Toast.makeText(this,"Jugador añadido: "+nombreJugador,Toast.LENGTH_SHORT).show()
+            jugador+=1
+        }
+        if(todosSeleccionados.size == opcion){
+            val intent = Intent(this, SecondActivity::class.java)
+            intent.putExtra("OPCION", opcion)
+            intent.putExtra("MAXRONDAS", maxRondas)
+            for(i in 1..opcion){
+                intent.putExtra("Jugador"+i, todosSeleccionados[i-1].nombre)
+            }
+            startActivity(intent)
+
 
         }
     }
 
-    fun rellenarRecV(dataset: Array<String>, rcv: RecyclerView) {
-            val customAdapter = CustomAdapter(dataset)
-            rcv.layoutManager = LinearLayoutManager(this)
-            rcv.adapter = customAdapter
+    fun formatoTexto(tv : TextView){
+        tv.textSize = 20F
+
+    }
+
+    fun añadirTextViews(){
+        TextViewss.add(binding.textViewjug1)
+        TextViewss.add(binding.textViewjug2)
+        TextViewss.add(binding.textViewjug3)
+        TextViewss.add(binding.textViewjug4)
 
 
     }
