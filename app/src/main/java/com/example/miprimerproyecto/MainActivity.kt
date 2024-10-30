@@ -69,19 +69,33 @@ class MainActivity : AppCompatActivity() {
             }
             val boton = binding.button
 
-            maxRondas = binding.editTextNumber.text.toString().toInt()
+
+
 
             boton.setOnClickListener {
                 for (i in 1..opcion) {
                     jugadores.add(Jugador("Jugador " + i, 0, i, 0))
                 }
-                Toast.makeText(this@MainActivity,"Numero de jugadores: $opcion",Toast.LENGTH_SHORT).show()
-                Toast.makeText(this@MainActivity,"Numero de rondas: $maxRondas",Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, JugadoresActivity::class.java)
-                intent.putExtra("OPCION", opcion)
-                intent.putExtra("MAXRONDAS", maxRondas)
-                startActivity(intent)
 
+                val valor = binding.editTextText.text.toString()
+                if(valor.isNotEmpty()) {
+                    maxRondas = valor.toInt()
+
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Numero de jugadores: $opcion",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Numero de rondas: $maxRondas",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(this, JugadoresActivity::class.java)
+                    intent.putExtra("OPCION", opcion)
+                    intent.putExtra("MAXRONDAS", maxRondas)
+                    startActivity(intent)
+                }
             }
 
         },3000)}
