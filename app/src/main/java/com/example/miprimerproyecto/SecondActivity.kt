@@ -1,5 +1,6 @@
 package com.example.miprimerproyecto
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -33,7 +34,7 @@ class SecondActivity : AppCompatActivity() {
         }
          opcion = intent.getIntExtra("OPCION",0)
          maxRondas = intent.getIntExtra("MAXRONDAS",0)
-
+        ocultarDado()
 
         for (i in 1..opcion) {
             var name : String = intent.getStringExtra("Jugador"+i).toString()
@@ -47,6 +48,7 @@ class SecondActivity : AppCompatActivity() {
         binding.textView4.textSize = 25F
         binding.textView2.setText("Turno de " + jugadores[jugador].nombre)
         binding.textView2.textSize = 18F
+        binding.button3.visibility = View.GONE
 
 
         botontirar.setOnClickListener {
@@ -71,7 +73,7 @@ class SecondActivity : AppCompatActivity() {
                 binding.textView3.setText("El " + jugadores[jugador].nombre + " ha sacado un: $numal Total puntos ronda:" + jugadores[jugador].puntuacionronda)
                 Toast.makeText(
                     this@SecondActivity,
-                    "OPPS!!! Ha salido un 1 El Jugador " + jugadores[jugador].numjugador + " Pierde su turno y puntos",
+                    "OPPS!!! Ha salido un 1 El " + jugadores[jugador].nombre + " Pierde su turno y puntos",
                     Toast.LENGTH_SHORT
                 ).show()
                 cambiarTurno()
@@ -101,7 +103,7 @@ class SecondActivity : AppCompatActivity() {
         botonplantarse.setOnClickListener {
             Toast.makeText(
                 this@SecondActivity,
-                "El Jugador" + jugadores[jugador].numjugador + " Se ha plantado",
+                "El " + jugadores[jugador].nombre + " Se ha plantado",
                 Toast.LENGTH_SHORT
             ).show()
             cambiarTurno()
@@ -121,7 +123,27 @@ class SecondActivity : AppCompatActivity() {
         }
         if (ronda > maxRondas) {
             binding.textView3.visibility = View.GONE
-            //acabarPartida()
+            var puntuaciones : TextView = binding.puntuacion
+            puntuaciones.textSize = 16F
+            var mensajepuntos=""
+            for(i in 1..opcion){
+                mensajepuntos = mensajepuntos.plus("Puntos del "+jugadores[i-1].nombre+": "+jugadores[i-1].puntuacion+"\n\n")
+            }
+            puntuaciones.setText(mensajepuntos)
+            mensajepuntos = ""
+            var max = 0
+            var ganador = ""
+            for(i in 1..opcion){
+                if(jugadores[i-1].puntuacion > max){
+                    max = jugadores[i-1].puntuacion
+                    ganador = jugadores[i-1].nombre
+                }
+            }
+            val intent = Intent(this, ThirdActivity::class.java)
+            intent.putExtra("OPCION", opcion)
+            intent.putExtra("GANADOR", ganador)
+            intent.putExtra("PUNTOSGANADOR",max)
+            startActivity(intent)
         }
         binding.textView2.setText("Turno del ${jugadores[jugador].nombre}")
         binding.textView3.visibility = View.GONE

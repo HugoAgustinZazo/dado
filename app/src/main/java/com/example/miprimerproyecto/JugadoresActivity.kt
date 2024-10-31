@@ -35,7 +35,7 @@ class JugadoresActivity : AppCompatActivity() {
         }
 
          opcion = intent.getIntExtra("OPCION", 0)
-         maxRondas = intent.getIntExtra("RONDAS", 0)
+         maxRondas = intent.getIntExtra("MAXRONDAS", 0)
 
         añadirTextViews()
 
@@ -113,8 +113,6 @@ class JugadoresActivity : AppCompatActivity() {
 
     fun onItemSelected(nombreJugador: String){
         var jugador = 0
-        todosSeleccionados.add(Jugador(nombreJugador,0,jugador,0))
-        Toast.makeText(this,"Jugador añadido: "+nombreJugador,Toast.LENGTH_SHORT).show()
         jugador+=1
         if (todosSeleccionados.size < jugadoress.size) {
             todosSeleccionados.add(Jugador(nombreJugador,0,jugador,0))
@@ -122,6 +120,7 @@ class JugadoresActivity : AppCompatActivity() {
             jugador+=1
         }
         if(todosSeleccionados.size == opcion){
+            todosSeleccionados.shuffle()
             val intent = Intent(this, SecondActivity::class.java)
             intent.putExtra("OPCION", opcion)
             intent.putExtra("MAXRONDAS", maxRondas)
