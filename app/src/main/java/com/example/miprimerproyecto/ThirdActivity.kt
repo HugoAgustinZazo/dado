@@ -14,6 +14,7 @@ class ThirdActivity : AppCompatActivity() {
     var opcion = 0
     var ganador: String = ""
     var puntosganador = 0
+    var jugadores: ArrayList<Jugador> = ArrayList<Jugador>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,20 @@ class ThirdActivity : AppCompatActivity() {
         opcion = intent.getIntExtra("OPCION",0)
         ganador = intent.getStringExtra("GANADOR").toString()
         puntosganador = intent.getIntExtra("PUNTOSGANADOR",0)
+
+        for (i in 1..opcion) {
+            var name : String = intent.getStringExtra("Jugador"+i).toString()
+            var puntuacion : Int = intent.getIntExtra("puntosJugador"+i,0)
+            jugadores.add(Jugador(name, puntuacion, i, 0))
+        }
+        var puntuaciones : TextView = binding.puntuaciones2
+        puntuaciones.textSize = 16F
+        var mensajepuntos=""
+        for(i in 1..opcion){
+            mensajepuntos = mensajepuntos.plus("Puntos del "+jugadores[i-1].nombre+": "+jugadores[i-1].puntuacion+"\n\n")
+        }
+        puntuaciones.setText(mensajepuntos)
+        mensajepuntos = ""
         if(ganador.equals("")) {
             binding.ganador.setText("Los jugadores no han obtenido ningun punto")
             binding.textView41.setText("¡¡Partida Terminada!!")

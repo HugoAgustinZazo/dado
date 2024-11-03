@@ -70,17 +70,17 @@ class SecondActivity : AppCompatActivity() {
 
             if (numal == 1) {
                 jugadores[jugador].puntuacionronda = 0
-                binding.textView3.setText("El " + jugadores[jugador].nombre + " ha sacado un: $numal Total puntos ronda:" + jugadores[jugador].puntuacionronda)
+                binding.textView3.setText(jugadores[jugador].nombre + " ha sacado un: $numal Total puntos ronda:" + jugadores[jugador].puntuacionronda)
                 Toast.makeText(
                     this@SecondActivity,
-                    "OPPS!!! Ha salido un 1 El " + jugadores[jugador].nombre + " Pierde su turno y puntos",
+                    "OPPS!!! Ha salido un 1 " + jugadores[jugador].nombre + " Pierde su turno y puntos",
                     Toast.LENGTH_SHORT
                 ).show()
                 cambiarTurno()
                 binding.textView3.visibility = View.VISIBLE
             } else {
                 jugadores[jugador].puntuacionronda += numal
-                binding.textView3.setText("El " + jugadores[jugador].nombre + " ha sacado un: $numal Total puntos ronda: " + jugadores[jugador].puntuacionronda)
+                binding.textView3.setText(jugadores[jugador].nombre + " ha sacado un: $numal Total puntos ronda: " + jugadores[jugador].puntuacionronda)
             }
             var puntuaciones: TextView = binding.puntuacion
             puntuaciones.textSize = 16F
@@ -103,7 +103,7 @@ class SecondActivity : AppCompatActivity() {
         botonplantarse.setOnClickListener {
             Toast.makeText(
                 this@SecondActivity,
-                "El " + jugadores[jugador].nombre + " Se ha plantado",
+                jugadores[jugador].nombre + " Se ha plantado",
                 Toast.LENGTH_SHORT
             ).show()
             cambiarTurno()
@@ -127,7 +127,7 @@ class SecondActivity : AppCompatActivity() {
             puntuaciones.textSize = 16F
             var mensajepuntos=""
             for(i in 1..opcion){
-                mensajepuntos = mensajepuntos.plus("Puntos del "+jugadores[i-1].nombre+": "+jugadores[i-1].puntuacion+"\n\n")
+                mensajepuntos = mensajepuntos.plus("Puntos de "+jugadores[i-1].nombre+": "+jugadores[i-1].puntuacion+"\n\n")
             }
             puntuaciones.setText(mensajepuntos)
             mensajepuntos = ""
@@ -143,9 +143,13 @@ class SecondActivity : AppCompatActivity() {
             intent.putExtra("OPCION", opcion)
             intent.putExtra("GANADOR", ganador)
             intent.putExtra("PUNTOSGANADOR",max)
+            for(i in 1..jugadores.size){
+                intent.putExtra("Jugador"+i,jugadores[i-1].nombre)
+                intent.putExtra("puntosJugador"+i,jugadores[i-1].puntuacion)
+            }
             startActivity(intent)
         }
-        binding.textView2.setText("Turno del ${jugadores[jugador].nombre}")
+        binding.textView2.setText("Turno de ${jugadores[jugador].nombre}")
         binding.textView3.visibility = View.GONE
     }
 

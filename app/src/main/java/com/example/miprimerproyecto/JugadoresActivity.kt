@@ -22,6 +22,7 @@ class JugadoresActivity : AppCompatActivity() {
     var todosSeleccionados: ArrayList<Jugador> = ArrayList()
     var maxRondas = 0
     var opcion = 0
+    var jugador = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJugadoresBinding.inflate(layoutInflater)
@@ -106,18 +107,31 @@ class JugadoresActivity : AppCompatActivity() {
             rcv.layoutManager = LinearLayoutManager(this)
             rcv.adapter = CustomAdapter(dataset) { nombrejugador->
                 onItemSelected(
-                    nombrejugador
+                    nombrejugador,rcv
                 )
             }
+
     }
 
-    fun onItemSelected(nombreJugador: String){
-        var jugador = 0
-        jugador+=1
+    fun onItemSelected(nombreJugador: String, rcv: RecyclerView){
         if (todosSeleccionados.size < jugadoress.size) {
-            todosSeleccionados.add(Jugador(nombreJugador,0,jugador,0))
-            Toast.makeText(this,"Jugador añadido: "+nombreJugador,Toast.LENGTH_SHORT).show()
-            jugador+=1
+                if(todosSeleccionados.any { it.nombre == nombreJugador }){
+                    Toast.makeText(
+                        this,
+                        "El nombre elegido ya esta en uso, elige otro",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }else {
+                    jugador+=1
+                    todosSeleccionados.add(Jugador(nombreJugador, 0, jugador, 0))
+                    Toast.makeText(
+                        this,
+                        "Jugador añadido: " + nombreJugador + jugador,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    rcv.visibility = View.GONE
+                }
+
         }
         if(todosSeleccionados.size == opcion){
             todosSeleccionados.shuffle()

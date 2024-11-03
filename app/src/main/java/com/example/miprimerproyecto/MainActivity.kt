@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     var maxRondas = 0
     var jugadores: ArrayList<Jugador> = ArrayList()
     var opcion = 0
+    val rd: Random = Random
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +47,8 @@ class MainActivity : AppCompatActivity() {
             binding.textView5.setText("Elige el numero de rondas")
             binding.textView5.textSize = 18F
 
-            //ocultar()
-            //ocultarDado()
 
-            val numJugadores: List<Int> = listOf(2, 3, 4)
+            val numJugadores: List<Int> = listOf(0,2,3,4)
             var adapter: ArrayAdapter<Int> =
                 ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, numJugadores)
             binding.spinner2.adapter = adapter
@@ -62,36 +61,47 @@ class MainActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     opcion = numJugadores[position]
+
+                    if(opcion==0){
+
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Elija el numero de rondas y jugadores",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }else {
+
+                        val valor = binding.editTextText.text.toString()
+                        if(valor.isNotEmpty()) {
+                            maxRondas = valor.toInt()
+                        }
+                        if(maxRondas==0){
+                            maxRondas = rd.nextInt(1,6)
+                        }
+
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Numero de jugadores: $opcion",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Numero de rondas: $maxRondas",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        val intent = Intent(this@MainActivity, JugadoresActivity::class.java)
+                        intent.putExtra("OPCION", opcion)
+                        intent.putExtra("MAXRONDAS", maxRondas)
+                        startActivity(intent)
+
+
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
                 }
-            }
-            val boton = binding.button
 
-
-
-
-            boton.setOnClickListener {
-                val valor = binding.editTextText.text.toString()
-                if(valor.isNotEmpty()) {
-                    maxRondas = valor.toInt()
-
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Numero de jugadores: $opcion",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Numero de rondas: $maxRondas",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    val intent = Intent(this, JugadoresActivity::class.java)
-                    intent.putExtra("OPCION", opcion)
-                    intent.putExtra("MAXRONDAS", maxRondas)
-                    startActivity(intent)
-                }
             }
 
         },3000)}
