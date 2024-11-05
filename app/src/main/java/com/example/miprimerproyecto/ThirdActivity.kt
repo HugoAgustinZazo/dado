@@ -44,6 +44,7 @@ class ThirdActivity : AppCompatActivity() {
         }
         puntuaciones.setText(mensajepuntos)
         mensajepuntos = ""
+        binding.textView41.textSize= 25F
         if(ganador.equals("")) {
             binding.ganador.setText("Los jugadores no han obtenido ningun punto")
             binding.textView41.setText("¡¡Partida Terminada!!")

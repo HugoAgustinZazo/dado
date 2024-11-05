@@ -126,7 +126,7 @@ class JugadoresActivity : AppCompatActivity() {
                     todosSeleccionados.add(Jugador(nombreJugador, 0, jugador, 0))
                     Toast.makeText(
                         this,
-                        "Jugador añadido: " + nombreJugador + jugador,
+                        "Jugador añadido: " + nombreJugador,
                         Toast.LENGTH_SHORT
                     ).show()
                     rcv.visibility = View.GONE
