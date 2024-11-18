@@ -143,10 +143,7 @@ class SecondActivity : AppCompatActivity() {
             intent.putExtra("OPCION", opcion)
             intent.putExtra("GANADOR", ganador)
             intent.putExtra("PUNTOSGANADOR",max)
-            for(i in 1..jugadores.size){
-                intent.putExtra("Jugador"+i,jugadores[i-1].nombre)
-                intent.putExtra("puntosJugador"+i,jugadores[i-1].puntuacion)
-            }
+            intent.putParcelableArrayListExtra("jugadores",jugadores)
             startActivity(intent)
         }
         binding.textView2.setText("Turno de ${jugadores[jugador].nombre}")

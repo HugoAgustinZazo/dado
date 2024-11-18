@@ -1,6 +1,9 @@
 package com.example.miprimerproyecto
 
+import android.content.Intent
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -30,12 +33,7 @@ class ThirdActivity : AppCompatActivity() {
         opcion = intent.getIntExtra("OPCION",0)
         ganador = intent.getStringExtra("GANADOR").toString()
         puntosganador = intent.getIntExtra("PUNTOSGANADOR",0)
-
-        for (i in 1..opcion) {
-            var name : String = intent.getStringExtra("Jugador"+i).toString()
-            var puntuacion : Int = intent.getIntExtra("puntosJugador"+i,0)
-            jugadores.add(Jugador(name, puntuacion, i, 0))
-        }
+        jugadores = intent.getParcelableArrayListExtra<Jugador>("jugadores")!!
         var puntuaciones : TextView = binding.puntuaciones2
         puntuaciones.textSize = 16F
         var mensajepuntos=""
@@ -54,5 +52,14 @@ class ThirdActivity : AppCompatActivity() {
             binding.ganador.setText("Enhorabuena el ganador es: " + ganador + " con " + puntosganador+ " puntos")
             binding.textView41.setText("¡¡Partida Terminada!!")
         }
+    }
+    inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
+        SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+    }
+
+    inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+        SDK_INT >= 33 -> getParcelable(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelable(key) as? T
     }
 }
