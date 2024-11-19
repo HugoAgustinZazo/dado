@@ -26,22 +26,12 @@ class RegistroActivity : AppCompatActivity() {
             datePicker()
         }
 
+        binding.registrarse.setOnClickListener{
+            val username = binding.tvusername.text
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
     }
     private fun datePicker(){
 
