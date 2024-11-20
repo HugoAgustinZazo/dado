@@ -1,28 +1,29 @@
-package com.example.miprimerproyecto;
+package com.example.miprimerproyecto
 
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.Query;
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+
 
 @Dao
 interface UsuarioDao {
 
-    @Query("SELECT * FROM user")
-    fun getAll(): List<User>
+    @Query("SELECT * FROM usuarios")
+    fun getAll(): List<Usuario>
 
-    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
-    fun loadAllByIds(userIds: IntArray): List<User>
+    @Query("SELECT * FROM usuarios WHERE username IN (:userIds)")
+    fun loadAllByIds(userIds: IntArray): List<Usuario>
 
-    @Query("SELECT * FROM user WHERE first_name LIKE :first AND " +
-            "last_name LIKE :last LIMIT 1")
-    fun findByName(first: String, last: String): User
-
-    @Insert
-    fun insertAll(vararg users: User)
+    @Query("SELECT * FROM usuarios WHERE username LIKE :username")
+    fun findByName(username: String): Usuario
 
     @Insert
-    fun insert(user: User)
+    fun insertAll(vararg users: Usuario)
+
+    @Insert
+    fun insert(user: Usuario)
 
     @Delete
-    fun delete(user: User)
+    fun delete(user: Usuario)
 }

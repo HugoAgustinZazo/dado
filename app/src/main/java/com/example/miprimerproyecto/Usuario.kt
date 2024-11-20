@@ -1,12 +1,14 @@
-package com.example.miprimerproyecto;
+package com.example.miprimerproyecto
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity
-data class Usuario {
-    @PrimaryKey val uid: Int,
-    @ColumnInfo(name = "first_name") val firstName: String?,
-    @ColumnInfo(name = "last_name") val lastName: String?
-}
+@Entity(tableName = "usuarios")
+data class Usuario(
+    @PrimaryKey val username: String,
+    @ColumnInfo(name = "password") val password: String?,
+    @ColumnInfo(name = "fechanac") val fechanac: String?
+)
+
+
