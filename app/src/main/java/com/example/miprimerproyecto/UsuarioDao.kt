@@ -16,7 +16,7 @@ interface UsuarioDao {
     fun findByName(username: String): Usuario
 
     @Insert
-    fun insertAll(vararg users: Usuario)
+    fun insertUser(user: Usuario)
 
     @Insert
     fun insert(user: Usuario)

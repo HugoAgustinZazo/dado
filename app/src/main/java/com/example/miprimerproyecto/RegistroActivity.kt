@@ -9,8 +9,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.miprimerproyecto.databinding.ActivityLoginBinding
 import com.example.miprimerproyecto.databinding.ActivityRegistroBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.Year
 
@@ -32,7 +36,6 @@ class RegistroActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val usuariosDataBase = UsuariosDataBase.getDatabase(this@RegistroActivity).UsuarioDao()
         binding.fechanac.setOnClickListener {
             datePicker()
         }
@@ -46,11 +49,18 @@ class RegistroActivity : AppCompatActivity() {
                     binding.mensajeerrorusername.setText("El usuario debe tener entre 4 y 10 caracteres")
                     contadorErrores++
                 } else {
-                    //val Usuario = usuariosDataBase.findByName(username.toString())
-                    /*if (Usuario != null) {
-                        binding.mensajeerrorusername.setText("El usuario introducido ya existe. Introduzca uno diferente")
-                        contadorErrores++
+                    /*
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO){
+                        val Usuario = usuariosDataBase.findByName(username)
+                        if (Usuario != null) {
+                            binding.mensajeerrorusername.setText("El usuario introducido ya existe. Introduzca uno diferente")
+                            contadorErrores++
+                        }
                     }
+
+
+                }
 
                      */
                 }
@@ -76,24 +86,22 @@ class RegistroActivity : AppCompatActivity() {
                 }
 
             if(contadorErrores==0){
-                val intent = Intent(this@RegistroActivity, LoginActivity::class.java)
-                startActivity(intent)
+
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO){
+                        val usuariosDataBase = UsuariosDataBase.getDatabase(this@RegistroActivity).UsuarioDao()
+                        var fecha: String = ""+dianac+"/"+mesnac+"/"+añonac
+                        val usuario = Usuario(username = username, password = password, fechanac = fecha )
+                        usuariosDataBase.insertUser(usuario)
+                    }
+                }
             }
-
-
         }
-
-
     }
-
-
-
-
-
     private fun datePicker(){
 
         val year = 2000
-        val month = 0
+        val month = 1
         val day = 1
 
         val datePickerDialog = DatePickerDialog(
