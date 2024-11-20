@@ -12,9 +12,6 @@ interface UsuarioDao {
     @Query("SELECT * FROM usuarios")
     fun getAll(): List<Usuario>
 
-    @Query("SELECT * FROM usuarios WHERE username IN (:userIds)")
-    fun loadAllByIds(userIds: IntArray): List<Usuario>
-
     @Query("SELECT * FROM usuarios WHERE username LIKE :username")
     fun findByName(username: String): Usuario
 
