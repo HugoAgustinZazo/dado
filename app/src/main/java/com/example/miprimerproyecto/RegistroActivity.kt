@@ -10,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import com.example.miprimerproyecto.databinding.ActivityLoginBinding
 import com.example.miprimerproyecto.databinding.ActivityRegistroBinding
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -36,6 +38,8 @@ class RegistroActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val db = Room.databaseBuilder(applicationContext,UsuariosDataBase::class.java,"bd_haz").build()
+        val userDao = db.userDao()
         binding.fechanac.setOnClickListener {
             datePicker()
         }
@@ -49,20 +53,6 @@ class RegistroActivity : AppCompatActivity() {
                     binding.mensajeerrorusername.setText("El usuario debe tener entre 4 y 10 caracteres")
                     contadorErrores++
                 } else {
-                    /*
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO){
-                        val Usuario = usuariosDataBase.findByName(username)
-                        if (Usuario != null) {
-                            binding.mensajeerrorusername.setText("El usuario introducido ya existe. Introduzca uno diferente")
-                            contadorErrores++
-                        }
-                    }
-
-
-                }
-
-                     */
                 }
             } else {
                 binding.mensajeerrorusername.setText("Deberas introducir un nombre de usuario")
@@ -86,14 +76,20 @@ class RegistroActivity : AppCompatActivity() {
                 }
 
             if(contadorErrores==0){
-
                 lifecycleScope.launch {
-                    withContext(Dispatchers.IO){
-                        val usuariosDataBase = UsuariosDataBase.getDatabase(this@RegistroActivity).UsuarioDao()
-                        var fecha: String = ""+dianac+"/"+mesnac+"/"+añonac
-                        val usuario = Usuario(username = username, password = password, fechanac = fecha )
-                        usuariosDataBase.insertUser(usuario)
+                    var user: User? = withContext(Dispatchers.IO) {
+                        userDao.findByName(username)
                     }
+                        if(user==null){
+                            var fecha: String = "" + dianac + "/" + mesnac + "/" + añonac
+                            val usuario =
+                                User(username = username, password = password, fechanac = fecha)
+                            userDao.insertUser(usuario)
+                        }else {
+
+                                binding.mensajeerrorusername.text = "El usuario ya existe introduce uno nuevo"
+                        }
+
                 }
             }
         }

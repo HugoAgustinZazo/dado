@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import com.example.miprimerproyecto.databinding.ActivityLoginBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -25,23 +27,24 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val db = Room.databaseBuilder(applicationContext,UsuariosDataBase::class.java,"bd_haz").build()
+        val userDao = db.userDao()
         binding.button.setOnClickListener{
             val username = binding.editTextText3.text.toString()
             val password = binding.editTextTextPassword2.text.toString()
-            var usuario : Usuario? = null
             lifecycleScope.launch {
-                withContext(Dispatchers.IO){
-                    val usuariosDataBase = UsuariosDataBase.getDatabase(this@LoginActivity).UsuarioDao()
-                    usuario = usuariosDataBase.findByName(username)
+                var usuario : User? =  withContext(Dispatchers.IO){
+                     userDao.findByName(username)
                 }
-            }
-            binding.mensajeuser.setText(usuario.toString())
-            if(usuario!=null){
-                if(password.equals(usuario!!.password)){
-                    val intent = Intent(this@LoginActivity, HUBActivity::class.java)
-                    startActivity(intent)
-                }else{
+                binding.mensajeuser.setText(usuario.toString())
+                if(usuario!=null){
+                    binding.mensajeuser.setText(usuario.toString())
+                    if(password.equals(usuario!!.password)){
+                        val intent = Intent(this@LoginActivity, HUBActivity::class.java)
+                        startActivity(intent)
+                    }else{
 
+                    }
                 }
             }
         }

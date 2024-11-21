@@ -6,24 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [Usuario::class], version = 1, exportSchema = false)
+@Database(entities = [User::class], version = 1)
 abstract class UsuariosDataBase: RoomDatabase() {
-    abstract fun UsuarioDao(): UsuarioDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: UsuariosDataBase? = null
-
-        fun getDatabase(context: Context): UsuariosDataBase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    UsuariosDataBase::class.java,
-                    "bd_haz"
-                ).build()
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
+    abstract fun userDao(): UserDao
 }
