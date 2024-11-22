@@ -53,9 +53,10 @@ dependencies {
 
     val room_version = "2.5.0"
 
-    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-    kapt ("androidx.room:room-compiler:$room_version")
+    kapt ("androidx.room:room-compiler:2.6.1")
 
 
 }

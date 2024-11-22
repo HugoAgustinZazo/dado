@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -40,6 +41,12 @@ class RegistroActivity : AppCompatActivity() {
         }
         val db = Room.databaseBuilder(applicationContext,UsuariosDataBase::class.java,"bd_haz").build()
         val userDao = db.userDao()
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                userDao.getAll()
+            }
+        }
+        binding.tvregistromensaje.textSize = 25F
         binding.fechanac.setOnClickListener {
             datePicker()
         }
@@ -62,7 +69,7 @@ class RegistroActivity : AppCompatActivity() {
                 binding.mensajeerrorusername.setText("Deberas introducir un nombre de usuario")
                 contadorErrores++
             }
-            if(!comparaEdad(añonac,mesnac,dianac)){
+            if(!comparaEdad(añonac,mesnac,dianac)) {
                 binding.mensajeerrorfechanac.setText("Eres menor de 16 años no puedes registrarte")
             }
 
@@ -92,6 +99,11 @@ class RegistroActivity : AppCompatActivity() {
                             }
                             val intent = Intent(this@RegistroActivity, LoginActivity::class.java)
                             startActivity(intent)
+                            Toast.makeText(
+                                this@RegistroActivity,
+                                "Usuario registrado: "+username,
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                         }else {
 
@@ -105,15 +117,15 @@ class RegistroActivity : AppCompatActivity() {
     private fun datePicker(){
 
         val year = 2000
-        val month = 1
+        val month = 0
         val day = 1
 
         val datePickerDialog = DatePickerDialog(
             this,
             { view, year1, monthOfYear, dayOfMonth ->
-                val dateChoice = (dayOfMonth.toString() + "-" + (monthOfYear) + "-" + year1)
+                val dateChoice = (dayOfMonth.toString() + "-" + (monthOfYear+1) + "-" + year1)
                 añonac=year1
-                mesnac = monthOfYear
+                mesnac = (monthOfYear+1)
                 dianac = dayOfMonth
                 binding.fechanac.setText(dateChoice)
 
@@ -134,20 +146,34 @@ class RegistroActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun comparaEdad(año: Int, mes: Int, dia: Int): Boolean{
-
+    var añomayor = false
+    var añoMayorIgual = ""
         if(LocalDate.now().year>=(año+16)){
-            if(LocalDate.now().monthValue>=mes){
-                if(LocalDate.now().dayOfMonth>=dia){
-                    return true
-                }else{
+            if(LocalDate.now().year==(año+16)){
+                añoMayorIgual = "igual"
+            }else{
+                añoMayorIgual = "mayor"
+            }
+            añomayor = true
+            if(LocalDate.now().monthValue>=mes||añomayor){
+                if(añoMayorIgual.equals("igual")&&LocalDate.now().monthValue<mes){
                     return false
+                }else {
+                    if (LocalDate.now().dayOfMonth >= dia || añomayor) {
+                        if (añoMayorIgual.equals("igual")&&LocalDate.now().dayOfMonth < dia) {
+                            return false
+                        } else {
+                            return true
+                        }
+                    } else {
+                        return false
+                    }
                 }
             }else{
                 return false
             }
-        }else{
+        }else
             return false
-        }
-        return false
+
     }
 }
