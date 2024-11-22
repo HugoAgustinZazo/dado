@@ -29,6 +29,9 @@ class LoginActivity : AppCompatActivity() {
         }
         val db = Room.databaseBuilder(applicationContext,UsuariosDataBase::class.java,"bd_haz").build()
         val userDao = db.userDao()
+        binding.textView6.textSize = 20F
+        binding.textView7.textSize = 20F
+
         binding.button.setOnClickListener{
             val username = binding.editTextText3.text.toString()
             val password = binding.editTextTextPassword2.text.toString()
@@ -36,15 +39,19 @@ class LoginActivity : AppCompatActivity() {
                 var usuario : User? =  withContext(Dispatchers.IO){
                      userDao.findByName(username)
                 }
-                binding.mensajeuser.setText(usuario.toString())
+                binding.mensajeuser.setText("")
+                binding.textView8.setText("")
                 if(usuario!=null){
-                    binding.mensajeuser.setText(usuario.toString())
                     if(password.equals(usuario!!.password)){
                         val intent = Intent(this@LoginActivity, HUBActivity::class.java)
+                        intent.putExtra("username",username)
                         startActivity(intent)
-                    }else{
 
+                    }else{
+                        binding.textView8.setText("La contraseña no coincide con el usuario")
                     }
+                }else {
+                    binding.mensajeuser.setText("El usuario introducido no existe. Registrese primero")
                 }
             }
         }

@@ -45,6 +45,10 @@ class RegistroActivity : AppCompatActivity() {
         }
 
         binding.registrarse.setOnClickListener {
+            binding.mensajeerrorfechanac.setText("")
+            binding.mensajeerrorusername.setText("")
+            binding.mensajeerrorpoliticas.setText("")
+            binding.mensajeerrorcontraseA.setText("")
             var contadorErrores: Int = 0
             val username = binding.editTextText2.text.toString()
             val password = binding.editTextTextPassword.text.toString()
@@ -82,9 +86,13 @@ class RegistroActivity : AppCompatActivity() {
                     }
                         if(user==null){
                             var fecha: String = "" + dianac + "/" + mesnac + "/" + añonac
-                            val usuario =
-                                User(username = username, password = password, fechanac = fecha)
-                            userDao.insertUser(usuario)
+                            val usuario = User(username = username, password = password, fechanac = fecha)
+                            withContext(Dispatchers.IO) {
+                                userDao.insertUser(usuario)
+                            }
+                            val intent = Intent(this@RegistroActivity, LoginActivity::class.java)
+                            startActivity(intent)
+
                         }else {
 
                                 binding.mensajeerrorusername.text = "El usuario ya existe introduce uno nuevo"
