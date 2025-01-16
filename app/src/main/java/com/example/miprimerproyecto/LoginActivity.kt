@@ -2,6 +2,10 @@ package com.example.miprimerproyecto
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,9 +13,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.example.miprimerproyecto.databinding.ActivityLoginBinding
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class LoginActivity : AppCompatActivity() {
@@ -30,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         }
         userPreferences = UserPreferences(applicationContext)
         observeData()
-        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java, "bd_haz").build()
+        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java, "bd_haz_v2").build()
         val userDao = db.userDao()
         binding.textView6.textSize = 20F
         binding.textView7.textSize = 20F
@@ -54,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
                         val intent = Intent(this@LoginActivity, HUBActivity::class.java)
                         intent.putExtra("username", username)
                         startActivity(intent)
-
                     } else {
                         binding.textView8.setText("La contraseña no coincide con el usuario")
 
@@ -64,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
         binding.checkBox2.setOnCheckedChangeListener { _, isChecked ->
             lifecycleScope.launch {
                 if (!isChecked) {
