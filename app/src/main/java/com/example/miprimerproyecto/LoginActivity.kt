@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
                     if (password.equals(usuario!!.password)) {
                         val intent = Intent(this@LoginActivity, HUBActivity::class.java)
                         intent.putExtra("username", username)
+                        intent.putExtra("avatar",usuario.avatar)
                         startActivity(intent)
                     } else {
                         binding.textView8.setText("La contraseña no coincide con el usuario")

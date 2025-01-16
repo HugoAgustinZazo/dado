@@ -37,6 +37,7 @@ class RegistroActivity : AppCompatActivity() {
     var añonac :Int = 0
     var mesnac :Int = 0
     var dianac :Int = 0
+    var avatar :String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +83,8 @@ class RegistroActivity : AppCompatActivity() {
             binding.mensajeerrorusername.setText("")
             binding.mensajeerrorpoliticas.setText("")
             binding.mensajeerrorcontraseA.setText("")
-            var contadorErrores: Int = 0
+            binding.mensajeerroravatar.setText("")
+            var contadorErrores = 0
             val username = binding.editTextText2.text.toString()
             val password = binding.editTextTextPassword.text.toString()
             if (username.isNotEmpty()) {
@@ -93,6 +95,10 @@ class RegistroActivity : AppCompatActivity() {
                 }
             } else {
                 binding.mensajeerrorusername.setText("Deberas introducir un nombre de usuario")
+                contadorErrores++
+            }
+            if(avatar.equals("")){
+                binding.mensajeerroravatar.setText("Debes elegir un avatar para tu usuario")
                 contadorErrores++
             }
             if(!comprobarHayFecha()){
@@ -117,7 +123,9 @@ class RegistroActivity : AppCompatActivity() {
                     contadorErrores++
                 }
             binding.imageView11.setOnClickListener{
+                binding.mensajeerroravatar.setText("")
                 Picasso.get().load(binding.avatar1url.text.toString()).into(binding.imageView15)
+                avatar=binding.avatar1url.text.toString()
                 binding.imageView15.visibility = View.VISIBLE
                 binding.textView12.setText("AVATAR ELEGIDO:")
                 binding.imageView11.visibility = View.GONE
@@ -130,7 +138,9 @@ class RegistroActivity : AppCompatActivity() {
             }
 
             binding.imageView14.setOnClickListener{
+                binding.mensajeerroravatar.setText("")
                 Picasso.get().load(binding.avatar2url.text.toString()).into(binding.imageView15)
+                avatar=binding.avatar2url.text.toString()
                 binding.imageView15.visibility = View.VISIBLE
                 binding.textView12.setText("AVATAR ELEGIDO:")
                 binding.imageView11.visibility = View.GONE
@@ -142,7 +152,9 @@ class RegistroActivity : AppCompatActivity() {
 
             }
             binding.imageView12.setOnClickListener{
+                binding.mensajeerroravatar.setText("")
                 Picasso.get().load(binding.avatar3url.text.toString()).into(binding.imageView15)
+                avatar=binding.avatar3url.text.toString()
                 binding.imageView15.visibility = View.VISIBLE
                 binding.textView12.setText("AVATAR ELEGIDO:")
                 binding.imageView11.visibility = View.GONE
@@ -161,7 +173,7 @@ class RegistroActivity : AppCompatActivity() {
                     }
                         if(user==null){
                             var fecha: String = "" + dianac + "/" + mesnac + "/" + añonac
-                            val usuario = User(username = username, password = password, fechanac = fecha,null)
+                            val usuario = User(username = username, password = password, fechanac = fecha,avatar)
                             withContext(Dispatchers.IO) {
                                 userDao.insertUser(usuario)
                             }
