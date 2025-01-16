@@ -1,5 +1,6 @@
 package com.example.miprimerproyecto
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
@@ -69,8 +70,13 @@ class RegistroActivity : AppCompatActivity() {
                 binding.mensajeerrorusername.setText("Deberas introducir un nombre de usuario")
                 contadorErrores++
             }
+            if(!comprobarHayFecha()){
+                binding.mensajeerrorfechanac.setText("Debe introduci una fecha de nacimiento")
+                contadorErrores++
+            }
             if(!comparaEdad(añonac,mesnac,dianac)) {
                 binding.mensajeerrorfechanac.setText("Eres menor de 16 años no puedes registrarte")
+                contadorErrores++
             }
 
             if (password.isNotEmpty()) {
@@ -114,11 +120,12 @@ class RegistroActivity : AppCompatActivity() {
             }
         }
     }
+    @SuppressLint("NewApi")
     private fun datePicker(){
 
-        val year = 2000
-        val month = 0
-        val day = 1
+        val year = LocalDate.now().year
+        val month = LocalDate.now().monthValue
+        val day = LocalDate.now().dayOfMonth
 
         val datePickerDialog = DatePickerDialog(
             this,
@@ -134,6 +141,14 @@ class RegistroActivity : AppCompatActivity() {
         )
         datePickerDialog.show()
     }
+    private fun comprobarHayFecha(): Boolean{
+        for(i in 0..9){
+            if(binding.fechanac.text.contains(i.toString())){
+                return true
+            }
+        }
+        return false
+    }
 
     private fun comprobarNumeroContraseña(password: String): Boolean {
         for(i in 0..9){
@@ -148,6 +163,7 @@ class RegistroActivity : AppCompatActivity() {
     private fun comparaEdad(año: Int, mes: Int, dia: Int): Boolean{
     var añomayor = false
     var añoMayorIgual = ""
+
         if(LocalDate.now().year>=(año+16)){
             if(LocalDate.now().year==(año+16)){
                 añoMayorIgual = "igual"

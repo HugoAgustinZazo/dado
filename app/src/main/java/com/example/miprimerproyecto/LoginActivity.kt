@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
+    private lateinit var userPreferences: UserPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -27,42 +28,78 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val db = Room.databaseBuilder(applicationContext,UsuariosDataBase::class.java,"bd_haz").build()
+        userPreferences = UserPreferences(applicationContext)
+        observeData()
+        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java, "bd_haz").build()
         val userDao = db.userDao()
         binding.textView6.textSize = 20F
         binding.textView7.textSize = 20F
 
-        binding.button.setOnClickListener{
+        binding.button.setOnClickListener {
             val username = binding.editTextText3.text.toString()
             val password = binding.editTextTextPassword2.text.toString()
             lifecycleScope.launch {
-                var usuario : User? =  withContext(Dispatchers.IO){
-                     userDao.findByName(username)
+                var usuario: User? = withContext(Dispatchers.IO) {
+                    userDao.findByName(username)
+                }
+                lifecycleScope.launch {
+                    if (binding.checkBox2.isChecked) {
+                        guardarCredenciales(username, password, true)
+                    }
                 }
                 binding.mensajeuser.setText("")
                 binding.textView8.setText("")
-                if(usuario!=null){
-                    if(password.equals(usuario!!.password)){
+                if (usuario != null) {
+                    if (password.equals(usuario!!.password)) {
                         val intent = Intent(this@LoginActivity, HUBActivity::class.java)
-                        intent.putExtra("username",username)
+                        intent.putExtra("username", username)
                         startActivity(intent)
 
-                    }else{
+                    } else {
                         binding.textView8.setText("La contraseña no coincide con el usuario")
+
                     }
-                }else {
+                } else {
                     binding.mensajeuser.setText("El usuario introducido no existe. Registrese primero")
                 }
             }
         }
-        binding.button4.setOnClickListener{
+        binding.checkBox2.setOnCheckedChangeListener { _, isChecked ->
+            lifecycleScope.launch {
+                if (!isChecked) {
+                    limpiarCredenciales()
+                } else {
+                    guardarCredenciales(
+                        binding.editTextText3.text.toString(),
+                        binding.editTextTextPassword2.text.toString(),
+                        true
+                    )
+                }
+            }
+        }
+        binding.button4.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegistroActivity::class.java)
             startActivity(intent)
         }
+    }
+    private suspend fun guardarCredenciales(username: String, password: String, isChecked: Boolean) {
+        withContext(Dispatchers.IO) {
+            userPreferences.saveUserData(username, password, isChecked)
+        }
+    }
 
-
-
-
-
+    private fun observeData() {
+        lifecycleScope.launch {
+            userPreferences.userData.collect { userData ->
+                binding.editTextText3.setText(userData.username)
+                binding.editTextTextPassword2.setText(userData.password)
+                binding.checkBox2.isChecked = userData.isChecked
+            }
+        }
+    }
+    private suspend fun limpiarCredenciales() {
+        withContext(Dispatchers.IO) {
+            userPreferences.limpiraDatos()
+        }
     }
 }
