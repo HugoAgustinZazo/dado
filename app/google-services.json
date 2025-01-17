@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "791933835649",
+    "project_id": "dam2haz",
+    "storage_bucket": "dam2haz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791933835649:android:234cc4bdc49d305820f080",
+        "android_client_info": {
+          "package_name": "com.example.miprimerproyecto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC40hVYRKruHhngBzJSB5J1yw7ShbbW0HQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,6 +7,6 @@ import retrofit2.http.Query
 
 interface ChistesApiService {
 
-    @GET("api/")
-    fun getChistePorCategoria(@Query("categoria")categoria: String): Call<ChistesApiResponse>
+    @GET("jokes/random")
+    fun getChistePorCategoria(@Query("categoria")categoria: String): Call<Chistes>
 }

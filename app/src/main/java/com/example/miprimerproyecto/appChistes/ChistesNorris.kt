@@ -58,15 +58,17 @@ class ChistesNorris : AppCompatActivity() {
 
     fun onItemSelected(tipochiste: String){
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.chucknorris.io/jokes/random/")
+            .baseUrl("https://api.chucknorris.io/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val service = retrofit.create(ChistesApiService::class.java)
-        val call = service.getChistePorcategoria(tipochiste)
-        call.enqueue(object : Callback<ChistesApiResponse> {
-            override fun onResponse(call: Call<ChistesApiResponse>, response: Response<ChistesApiResponse>) {
+        val call = service.getChistePorCategoria(tipochiste)
+        call.enqueue(object : Callback<Chistes> {
+            override fun onResponse(call: Call<Chistes>, response: Response<Chistes>) {
                 if (response.isSuccessful) {
-                    val chiste = response.body()?.results?.get(0)?.value
+                    val chiste = response.body()?.value
+                    Log.d("Hugo",chiste.toString())
+                    Log.d("Hugo",response.raw().toString())
                     if (!chiste.isNullOrEmpty()) {
                         binding.textView14.setText(chiste)
                     }
@@ -74,7 +76,7 @@ class ChistesNorris : AppCompatActivity() {
                     Log.d("Hugo", response.raw().toString())
                 }
             }
-            override fun onFailure(call: Call<ChistesApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<Chistes>, t: Throwable) {
             }
         })
         }

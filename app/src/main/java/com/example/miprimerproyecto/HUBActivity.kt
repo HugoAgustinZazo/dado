@@ -9,6 +9,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.miprimerproyecto.appChistes.ChistesNorris
 import com.example.miprimerproyecto.databinding.ActivityHubactivityBinding
 import com.example.miprimerproyecto.databinding.ActivityLoginBinding
+import com.example.miprimerproyecto.firebaseapp.FbSinAut
+import com.example.miprimerproyecto.firebaseapp.MainActivityFb
 import com.squareup.picasso.Picasso
 
 class HUBActivity : AppCompatActivity() {
@@ -33,7 +35,14 @@ class HUBActivity : AppCompatActivity() {
         binding.textView11.textSize = 20F
         binding.textView10.setText("Usuario: "+username)
 
+        binding.imageView18.setOnClickListener(){
+            val intent = Intent(this@HUBActivity, MainActivityFb::class.java)
+            intent.putExtra("username", username)
+            intent.putExtra("avatar",avatar)
 
+            startActivity(intent)
+
+        }
         binding.imageView10.setOnClickListener(){
             val intent = Intent(this@HUBActivity, MainActivity::class.java)
             startActivity(intent)

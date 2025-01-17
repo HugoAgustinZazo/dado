@@ -78,6 +78,50 @@ class RegistroActivity : AppCompatActivity() {
             cargarImagenPorGenero(binding.imageView14,binding.avatar2url,"female")
             cargarImagenPorGenero(binding.imageView12,binding.avatar3url,"female")
         }
+
+        binding.imageView11.setOnClickListener{
+            binding.mensajeerroravatar.setText("")
+            Picasso.get().load(binding.avatar1url.text.toString()).into(binding.imageView15)
+            avatar=binding.avatar1url.text.toString()
+            binding.imageView15.visibility = View.VISIBLE
+            binding.textView12.setText("AVATAR ELEGIDO:")
+            binding.imageView11.visibility = View.GONE
+            binding.imageView14.visibility = View.GONE
+            binding.imageView12.visibility = View.GONE
+            binding.button6.visibility = View.GONE
+            binding.button7.visibility = View.GONE
+            binding.button8.visibility = View.GONE
+
+        }
+
+        binding.imageView14.setOnClickListener{
+            binding.mensajeerroravatar.setText("")
+            Picasso.get().load(binding.avatar2url.text.toString()).into(binding.imageView15)
+            avatar=binding.avatar2url.text.toString()
+            binding.imageView15.visibility = View.VISIBLE
+            binding.textView12.setText("AVATAR ELEGIDO:")
+            binding.imageView11.visibility = View.GONE
+            binding.imageView14.visibility = View.GONE
+            binding.imageView12.visibility = View.GONE
+            binding.button6.visibility = View.GONE
+            binding.button7.visibility = View.GONE
+            binding.button8.visibility = View.GONE
+
+        }
+        binding.imageView12.setOnClickListener{
+            binding.mensajeerroravatar.setText("")
+            Picasso.get().load(binding.avatar3url.text.toString()).into(binding.imageView15)
+            avatar=binding.avatar3url.text.toString()
+            binding.imageView15.visibility = View.VISIBLE
+            binding.textView12.setText("AVATAR ELEGIDO:")
+            binding.imageView11.visibility = View.GONE
+            binding.imageView14.visibility = View.GONE
+            binding.imageView12.visibility = View.GONE
+            binding.button6.visibility = View.GONE
+            binding.button7.visibility = View.GONE
+            binding.button8.visibility = View.GONE
+
+        }
         binding.registrarse.setOnClickListener {
             binding.mensajeerrorfechanac.setText("")
             binding.mensajeerrorusername.setText("")
@@ -122,49 +166,6 @@ class RegistroActivity : AppCompatActivity() {
                     binding.mensajeerrorpoliticas.setText("Deberas aceptar las politicas y condiciones de privacidad")
                     contadorErrores++
                 }
-            binding.imageView11.setOnClickListener{
-                binding.mensajeerroravatar.setText("")
-                Picasso.get().load(binding.avatar1url.text.toString()).into(binding.imageView15)
-                avatar=binding.avatar1url.text.toString()
-                binding.imageView15.visibility = View.VISIBLE
-                binding.textView12.setText("AVATAR ELEGIDO:")
-                binding.imageView11.visibility = View.GONE
-                binding.imageView14.visibility = View.GONE
-                binding.imageView12.visibility = View.GONE
-                binding.button6.visibility = View.GONE
-                binding.button7.visibility = View.GONE
-                binding.button8.visibility = View.GONE
-
-            }
-
-            binding.imageView14.setOnClickListener{
-                binding.mensajeerroravatar.setText("")
-                Picasso.get().load(binding.avatar2url.text.toString()).into(binding.imageView15)
-                avatar=binding.avatar2url.text.toString()
-                binding.imageView15.visibility = View.VISIBLE
-                binding.textView12.setText("AVATAR ELEGIDO:")
-                binding.imageView11.visibility = View.GONE
-                binding.imageView14.visibility = View.GONE
-                binding.imageView12.visibility = View.GONE
-                binding.button6.visibility = View.GONE
-                binding.button7.visibility = View.GONE
-                binding.button8.visibility = View.GONE
-
-            }
-            binding.imageView12.setOnClickListener{
-                binding.mensajeerroravatar.setText("")
-                Picasso.get().load(binding.avatar3url.text.toString()).into(binding.imageView15)
-                avatar=binding.avatar3url.text.toString()
-                binding.imageView15.visibility = View.VISIBLE
-                binding.textView12.setText("AVATAR ELEGIDO:")
-                binding.imageView11.visibility = View.GONE
-                binding.imageView14.visibility = View.GONE
-                binding.imageView12.visibility = View.GONE
-                binding.button6.visibility = View.GONE
-                binding.button7.visibility = View.GONE
-                binding.button8.visibility = View.GONE
-
-            }
 
             if(contadorErrores==0){
                 lifecycleScope.launch {
