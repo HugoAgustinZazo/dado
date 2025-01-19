@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFB6C1"
+    android:textAlignment="center"
     tools:context=".firebaseapp.MainActivityFb">
 
     <ImageView
@@ -46,16 +47,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.449" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="278dp"
-        android:layout_height="65dp"
-        android:text="Con autenticación"
-        android:textSize="20sp"
+    <ImageButton
+        android:id="@+id/botongoogle"
+        android:layout_width="318dp"
+        android:layout_height="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.654" />
+        app:layout_constraintVertical_bias="0.621"
+        app:srcCompat="@drawable/regg" />
 </androidx.constraintlayout.widget.ConstraintLayout>
