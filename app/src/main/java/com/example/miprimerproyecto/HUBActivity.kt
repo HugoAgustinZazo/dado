@@ -35,6 +35,12 @@ class HUBActivity : AppCompatActivity() {
         binding.textView11.textSize = 20F
         binding.textView10.setText("Usuario: "+username)
 
+
+        binding.imageView21.setOnClickListener(){
+            val intent = Intent(this@HUBActivity, MainActivityFb::class.java)
+            startActivity(intent)
+
+        }
         binding.imageView18.setOnClickListener(){
             val intent = Intent(this@HUBActivity, MainActivityFb::class.java)
             intent.putExtra("username", username)
