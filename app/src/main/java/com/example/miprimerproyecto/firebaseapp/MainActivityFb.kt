@@ -86,6 +86,8 @@ class MainActivityFb : AppCompatActivity() {
                 FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(){
                     if(it.isSuccessful){
                         Log.d("hugo",it.result.user?.email.toString())
+                        val intent = Intent(this@MainActivityFb, FbConAutG::class.java)
+                        startActivity(intent)
 
                     }
                 }
