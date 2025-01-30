@@ -1,8 +1,6 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.dataBase
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 
 

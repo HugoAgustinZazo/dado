@@ -8,20 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.miprimerproyecto.MainActivity
 import com.example.miprimerproyecto.R
-import com.example.miprimerproyecto.databinding.ActivityMainBinding
 import com.example.miprimerproyecto.databinding.ActivityMainFbBinding
 import com.example.miprimerproyecto.firebaseapp.FbConAutG.Companion.RC_SIGN_IN
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
 import com.squareup.picasso.Picasso
 
 

@@ -2,22 +2,15 @@ package com.example.miprimerproyecto.appChistes
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.miprimerproyecto.CustomAdapter
-import com.example.miprimerproyecto.Jugador
+import com.example.miprimerproyecto.juegoDado.CustomAdapter
 import com.example.miprimerproyecto.R
-import com.example.miprimerproyecto.UserApiResponse
-import com.example.miprimerproyecto.UserApiService
 import com.example.miprimerproyecto.databinding.ActivityChistesNorrisBinding
-import com.example.miprimerproyecto.databinding.ActivityMainBinding
-import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

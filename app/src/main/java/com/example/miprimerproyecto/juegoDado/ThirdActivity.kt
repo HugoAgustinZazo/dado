@@ -1,15 +1,15 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.juegoDado
 
 import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.miprimerproyecto.R
 import com.example.miprimerproyecto.databinding.ActivityThirdBinding
 
 class ThirdActivity : AppCompatActivity() {

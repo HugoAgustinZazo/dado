@@ -1,13 +1,11 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.juegoDado
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-
+import com.example.miprimerproyecto.R
 
 
 class CustomAdapter(private val dataSet: Array<String>, private val onClickListener: (String) -> Unit) :

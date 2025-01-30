@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.api
 
 
 data class UserApiResponse(

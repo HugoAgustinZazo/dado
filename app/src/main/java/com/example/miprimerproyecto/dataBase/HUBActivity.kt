@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.dataBase
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,11 +6,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.miprimerproyecto.R
 import com.example.miprimerproyecto.appChistes.ChistesNorris
+import com.example.miprimerproyecto.camera.CameraHub
 import com.example.miprimerproyecto.databinding.ActivityHubactivityBinding
-import com.example.miprimerproyecto.databinding.ActivityLoginBinding
-import com.example.miprimerproyecto.firebaseapp.FbSinAut
 import com.example.miprimerproyecto.firebaseapp.MainActivityFb
+import com.example.miprimerproyecto.juegoDado.MainActivity
 import com.squareup.picasso.Picasso
 
 class HUBActivity : AppCompatActivity() {
@@ -37,7 +38,9 @@ class HUBActivity : AppCompatActivity() {
 
 
         binding.imageView21.setOnClickListener(){
-            val intent = Intent(this@HUBActivity, MainActivityFb::class.java)
+            val intent = Intent(this@HUBActivity, CameraHub::class.java)
+            intent.putExtra("username", username)
+            intent.putExtra("avatar",avatar)
             startActivity(intent)
 
         }
@@ -45,7 +48,6 @@ class HUBActivity : AppCompatActivity() {
             val intent = Intent(this@HUBActivity, MainActivityFb::class.java)
             intent.putExtra("username", username)
             intent.putExtra("avatar",avatar)
-
             startActivity(intent)
 
         }

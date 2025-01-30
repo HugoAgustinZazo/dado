@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.juegoDado
 
 import android.os.Parcel
 import android.os.Parcelable

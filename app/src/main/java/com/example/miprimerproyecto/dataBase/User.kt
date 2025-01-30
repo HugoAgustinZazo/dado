@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.dataBase
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

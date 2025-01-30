@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFB6C1"
-    tools:context=".ThirdActivity">
+    tools:context=".juegoDado.ThirdActivity">
 
     <TextView
         android:id="@+id/ganador"

@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.dataBase
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -17,10 +17,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
-import com.example.miprimerproyecto.databinding.ActivityLoginBinding
+import com.example.miprimerproyecto.R
+import com.example.miprimerproyecto.api.UserApiResponse
+import com.example.miprimerproyecto.api.UserApiService
 import com.example.miprimerproyecto.databinding.ActivityRegistroBinding
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,7 +31,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
-import java.time.Year
 
 class RegistroActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegistroBinding
@@ -51,7 +51,7 @@ class RegistroActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val db = Room.databaseBuilder(applicationContext,UsuariosDataBase::class.java,"bd_haz_v2").build()
+        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java,"bd_haz_v2").build()
         val userDao = db.userDao()
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {

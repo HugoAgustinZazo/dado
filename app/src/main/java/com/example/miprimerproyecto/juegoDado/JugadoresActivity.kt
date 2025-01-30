@@ -1,8 +1,7 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.juegoDado
 
 import android.content.Intent
 import android.os.Bundle
-import android.service.autofill.Dataset
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -12,8 +11,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.miprimerproyecto.R
 import com.example.miprimerproyecto.databinding.ActivityJugadoresBinding
-import com.example.miprimerproyecto.databinding.ActivityMainBinding
 
 class JugadoresActivity : AppCompatActivity() {
     lateinit var binding: ActivityJugadoresBinding

@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.api
 
 import retrofit2.Call
 import retrofit2.http.GET

@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.dataBase
 
 import android.app.Application
 import androidx.room.Room

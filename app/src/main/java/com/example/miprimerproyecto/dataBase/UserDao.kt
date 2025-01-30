@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.dataBase
 
 import androidx.room.Dao
 import androidx.room.Delete

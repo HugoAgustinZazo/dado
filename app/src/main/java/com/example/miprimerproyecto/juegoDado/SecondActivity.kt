@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto
+package com.example.miprimerproyecto.juegoDado
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.miprimerproyecto.databinding.ActivityJugadoresBinding
+import com.example.miprimerproyecto.R
 import com.example.miprimerproyecto.databinding.ActivitySecondBinding
 import kotlin.random.Random
 
