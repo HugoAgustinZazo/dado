@@ -12,6 +12,7 @@ import com.example.miprimerproyecto.camera.CameraHub
 import com.example.miprimerproyecto.databinding.ActivityHubactivityBinding
 import com.example.miprimerproyecto.firebaseapp.MainActivityFb
 import com.example.miprimerproyecto.juegoDado.MainActivity
+import com.example.miprimerproyecto.mediaPlayer.videos
 import com.squareup.picasso.Picasso
 
 class HUBActivity : AppCompatActivity() {
@@ -36,7 +37,12 @@ class HUBActivity : AppCompatActivity() {
         binding.textView11.textSize = 20F
         binding.textView10.setText("Usuario: "+username)
 
-
+        binding.imageView23.setOnClickListener(){
+            val intent = Intent(this@HUBActivity, videos::class.java)
+            intent.putExtra("username", username)
+            intent.putExtra("avatar",avatar)
+            startActivity(intent)
+        }
         binding.imageView21.setOnClickListener(){
             val intent = Intent(this@HUBActivity, CameraHub::class.java)
             intent.putExtra("username", username)

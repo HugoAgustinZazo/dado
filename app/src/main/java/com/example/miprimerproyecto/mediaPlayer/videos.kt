@@ -1,4 +1,4 @@
-package com.example.miprimerproyecto.camera
+package com.example.miprimerproyecto.mediaPlayer
 
 import android.content.ContentUris
 import android.net.Uri
@@ -6,41 +6,51 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.miprimerproyecto.databinding.ActivityListadoMultimediaBinding
+import com.example.miprimerproyecto.R
+import com.example.miprimerproyecto.camera.MultimediaAdapter
+import com.example.miprimerproyecto.databinding.ActivityVideosBinding
+import com.squareup.picasso.Picasso
 
-class ListadoMultimedia : AppCompatActivity() {
-    private lateinit var binding: ActivityListadoMultimediaBinding
+class videos : AppCompatActivity() {
+    private lateinit var binding: ActivityVideosBinding
+    private var usuario = ""
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: MultimediaAdapter
-    private lateinit var usuario: String
+    private lateinit var adapter: videoAdapter
     private var listaMultimedia = mutableListOf<Pair<Uri, String>>()
-
+    private var videos: List<String> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListadoMultimediaBinding.inflate(layoutInflater)
+        binding = ActivityVideosBinding.inflate(layoutInflater)
         enableEdgeToEdge()
+        setContentView(R.layout.activity_videos)
         setContentView(binding.root)
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         usuario = intent.getStringExtra("username") ?: "UsuarioDesconocido"
-        binding.textView19.text = "Fotos/videos de: $usuario"
-
-        recyclerView = binding.recyclerView
+        binding.textView20.setText(binding.textView20.text.toString()+usuario)
+        val avatar = intent.getStringExtra("avatar")
+        Picasso.get().load(avatar).into(binding.imageView22)
+        recyclerView = binding.videos
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         cargarArchivo()
-        adapter = MultimediaAdapter(listaMultimedia) { uri -> eliminarArchivo(uri) }
+        adapter = videoAdapter(listaMultimedia){video->reproducirVideo(video)}
         recyclerView.adapter = adapter
     }
 
     private fun cargarArchivo() {
         listaMultimedia.clear()
-        obtenerimagen_video(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/jpeg")
-        obtenerimagen_video(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "video/mp4")
+        obtenervideo(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "video/mp4")
     }
 
-    private fun obtenerimagen_video(contentUri: Uri, tipo: String) {
+    private fun obtenervideo(contentUri: Uri, tipo: String) {
         val projection = arrayOf(MediaStore.MediaColumns._ID)
         val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} LIKE ?"
         val selectionArgs = arrayOf("%$usuario%")
@@ -54,10 +64,7 @@ class ListadoMultimedia : AppCompatActivity() {
             }
         }
     }
+    private fun reproducirVideo(uri: Uri) {
 
-    private fun eliminarArchivo(uri: Uri) {
-        contentResolver.delete(uri, null, null)
-        listaMultimedia.removeIf { it.first == uri }
-        adapter.notifyDataSetChanged()
     }
-    }
+}

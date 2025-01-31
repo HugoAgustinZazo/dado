@@ -29,6 +29,7 @@ class CameraHub : AppCompatActivity() {
         val avatar = intent.getStringExtra("avatar")
         Picasso.get().load(avatar).into(binding.avatar)
         binding.userName.setText("Usuario: "+username)
+        binding.button13.setText(binding.button13.text.toString()+username)
 
         binding.button9.setOnClickListener(){
             val intent = Intent(this@CameraHub, CamaraFotos::class.java)
