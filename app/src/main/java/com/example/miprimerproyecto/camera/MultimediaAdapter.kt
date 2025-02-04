@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.miprimerproyecto.R
-
     class MultimediaAdapter(
         private val listaUris: MutableList<Pair<Uri, String>>,
         private val onDeleteClick: (Uri) -> Unit

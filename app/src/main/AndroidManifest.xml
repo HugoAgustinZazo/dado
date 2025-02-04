@@ -27,6 +27,12 @@
         android:theme="@style/Theme.MiPrimerProyecto"
         tools:targetApi="31">
         <activity
+            android:name=".mediaPlayer.Reproductor"
+            android:exported="false" />
+        <activity
+            android:name=".mediaPlayer.VideoPlayer"
+            android:exported="false" />
+        <activity
             android:name=".mediaPlayer.videos"
             android:exported="false" />
         <activity

@@ -4,13 +4,12 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.miprimerproyecto.R
 
-class videoAdapter (private val videos:  MutableList<Pair<Uri, String>>,
-    private val videoSeleccionado:(Uri)->Unit) : RecyclerView.Adapter<videoAdapter.ViewHolder>() {
+class videoAdapter(private val videos: MutableList<String>,
+                   private val videoSeleccionado:(String)->Unit) : RecyclerView.Adapter<videoAdapter.ViewHolder>() {
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val textViewRuta: TextView = view.findViewById(R.id.textViewRuta)
         }
@@ -20,8 +19,8 @@ class videoAdapter (private val videos:  MutableList<Pair<Uri, String>>,
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val (uri, _) = videos[position]
-            holder.textViewRuta.text = uri.toString()
+            val uri = videos[position]
+            holder.textViewRuta.text = uri
             holder.textViewRuta.setOnClickListener(){
                     videoSeleccionado(uri)
             }
