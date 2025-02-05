@@ -30,9 +30,6 @@
             android:name=".mediaPlayer.Reproductor"
             android:exported="false" />
         <activity
-            android:name=".mediaPlayer.VideoPlayer"
-            android:exported="false" />
-        <activity
             android:name=".mediaPlayer.videos"
             android:exported="false" />
         <activity

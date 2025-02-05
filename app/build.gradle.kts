@@ -78,6 +78,7 @@ dependencies {
     implementation("androidx.camera:camera-mlkit-vision:${camerax_version}")
     implementation("androidx.camera:camera-extensions:${camerax_version}")
     implementation ("com.google.guava:guava:31.0.1-android")
+    implementation ("com.airbnb.android:lottie:6.0.0")
 
 
 
