@@ -27,6 +27,9 @@
         android:theme="@style/Theme.MiPrimerProyecto"
         tools:targetApi="31">
         <activity
+            android:name=".audios.AudiosActivity"
+            android:exported="false" />
+        <activity
             android:name=".mediaPlayer.Reproductor"
             android:exported="false" />
         <activity

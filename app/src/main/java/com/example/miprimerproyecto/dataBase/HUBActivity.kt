@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.miprimerproyecto.R
 import com.example.miprimerproyecto.appChistes.ChistesNorris
+import com.example.miprimerproyecto.audios.AudiosActivity
 import com.example.miprimerproyecto.camera.CameraHub
 import com.example.miprimerproyecto.databinding.ActivityHubactivityBinding
 import com.example.miprimerproyecto.firebaseapp.MainActivityFb
@@ -59,6 +60,13 @@ class HUBActivity : AppCompatActivity() {
 
         }
 
+        binding.reproductor.setOnClickListener(){
+            val intent = Intent(this@HUBActivity, AudiosActivity::class.java)
+            intent.putExtra("username", username)
+            intent.putExtra("avatar",avatar)
+            soundPool.release()
+            startActivity(intent)
+        }
         binding.imageView23.setOnClickListener(){
             binding.checkVideo.visibility = View.VISIBLE
             binding.imageView23.visibility = View.GONE
