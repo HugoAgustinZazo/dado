@@ -4,16 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.miprimerproyecto.R
 import com.example.miprimerproyecto.databinding.ActivityGameVBinding
 import kotlin.random.Random
 
@@ -23,7 +18,7 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
     //BOOLEANO CON EL ESTADO DEL JUEGO (JUGANDO O NO)
     private var playing = false
     var colores = arrayOf(Color.CYAN,Color.BLACK, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA)
-
+    private var contadorBolas = 0
     //CARACTERIZACIÓN DE LA BOLA
     private val ballPaint = Paint()
     private val ballMainPaint = Paint()
@@ -32,7 +27,8 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
     //OBJETO BOLA
     private var ball1: Ball? = null
     private var ball2: Ball? = null
-
+    private var contadorRondas = 0
+    private var multVelocidad = 0
     // private val ballList: List<Ball>
     private val balls: MutableList<Ball> = mutableListOf()
     private var score = 0 // Inicializamos el puntaje en 0
@@ -90,7 +86,10 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
 
                 if (distance < ball.radius + otherBall.radius) {
                     iterator.remove()
-                    score= (score+ball.radius).toInt()
+                    score= (score+otherBall.radius).toInt()
+                    Log.d("ContBolasPre",contadorBolas.toString())
+                    contadorBolas--
+                    Log.d("ContBolasPost",contadorBolas.toString())
                     invalidate()
 
                 }
@@ -110,6 +109,10 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
             update()
             draw()
             control()
+            if(contadorBolas==0){
+                initializeBalls()
+            }
+
         }
     }
     /* update()
@@ -252,7 +255,7 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
        SE UBICA-POSICIONA EL OBJETO BOLA Y SE INICIALIZAN LOS "SQUARES"
     */
     override fun surfaceCreated(holder: SurfaceHolder) {
-        ball1 = Ball(x = width / 4f, y = height / 2f,5f,5f,20f,Color.RED)
+        ball1 = Ball(x = width / 4f, y = height / 2f,6f,6f,20f,Color.RED)
         initializeBalls()
 
         initializeSquares(width, height)
@@ -260,14 +263,28 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
     }
     private fun initializeBalls() {
         var numal: Int = Random.nextInt(3, 6)
-        for(i in 0..numal){
+        contadorBolas = numal
+        Log.d("NUMERO DE BOLAS",contadorBolas.toString())
+        if(contadorRondas>=1){
+            multVelocidad += 2
+        }
+        for(i in 1..numal){
             var radio: Float = (25..50).random().toFloat()
             var randx: Float = (2..4).random().toFloat()
             var randy: Float = (2..4).random().toFloat()
-            var dirx: Float = (-4..3).random().toFloat()
-            var ball = Ball(x = width / randx, y = height / randy, dx = dirx, dy = -6f, radius = radio,color = colores.random())
+            var dirx: Float = (-6..-3).random().toFloat()
+            var diry:Float = (-6..-3).random().toFloat()
+            if(contadorRondas>=1){
+             dirx *= multVelocidad.toFloat()
+             diry *= multVelocidad.toFloat()
+            }
+            Log.d("VELOCIDAD X",dirx.toString())
+            Log.d("Multiplicador VEL",multVelocidad.toString())
+            var ball = Ball(x = width / randx, y = height / randy, dx = dirx, dy = diry, radius = radio,color = colores.random())
             balls.add(ball)
-        }// Agregar más bolas si es necesario
+        }
+        contadorRondas++
+    // Agregar más bolas si es necesario
         // No son formas de agregar bolas a la partida, pero es que tenía "prisa"
     }
     /* surfaceDestroyed(holder: SurfaceHolder)
