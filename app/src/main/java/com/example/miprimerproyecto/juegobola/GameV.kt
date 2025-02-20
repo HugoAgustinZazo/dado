@@ -35,7 +35,8 @@ class GameV (context: Context, var surfaceView: SurfaceView) : SurfaceHolder.Cal
     private var multVelocidad = 0
     // private val ballList: List<Ball>
     private val balls: MutableList<Ball> = mutableListOf()
-    private var score = 0 // Inicializamos el puntaje en 0
+    var score = 0 // Inicializamos el puntaje en 0
+    var record = 0
 
     //TAMAÑO DE CADA SQUARE
     private val squareSize = 20f
