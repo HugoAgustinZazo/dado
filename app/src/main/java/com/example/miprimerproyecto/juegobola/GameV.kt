@@ -1,5 +1,6 @@
 package com.example.miprimerproyecto.juegobola
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -12,9 +13,12 @@ import android.view.View
 import com.example.miprimerproyecto.databinding.ActivityGameVBinding
 import kotlin.random.Random
 
-class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, Runnable, View.OnTouchListener{
+@SuppressLint("ClickableViewAccessibility")
+class GameV (context: Context, var surfaceView: SurfaceView) : SurfaceHolder.Callback, Runnable, View.OnTouchListener{
     private lateinit var binding: ActivityGameVBinding
     private lateinit var gameThread: Thread
+    private var height = surfaceView.height
+    private var width = surfaceView.width
     //BOOLEANO CON EL ESTADO DEL JUEGO (JUGANDO O NO)
     private var playing = false
     var colores = arrayOf(Color.CYAN,Color.BLACK, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA)
@@ -44,14 +48,14 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
     PODREMOS INICIALIZAR LA BOLA Y EL “SQUARE” QUE HABREMOS DEFINIDO COMO OBJETOS DE LA CLASE PAINT() USANDO LA CLASE COLOR()
      */
     init {
-        holder.addCallback(this)
+        surfaceView.holder.addCallback(this)
         //Asignar color a ball y square
 
         ballPaint.color = Color.BLACK
         ballMainPaint.color = Color.RED
         squarePaint.color = Color.WHITE
 
-        setOnTouchListener(this)
+        surfaceView.setOnTouchListener(this)
     }
 
     //https://developer.android.com/reference/kotlin/android/view/View.OnTouchListener
@@ -90,7 +94,7 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
                     Log.d("ContBolasPre",contadorBolas.toString())
                     contadorBolas--
                     Log.d("ContBolasPost",contadorBolas.toString())
-                    invalidate()
+                    surfaceView.invalidate()
 
                 }
             }
@@ -105,15 +109,13 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
     LLAMAREMOS DE FORMA ININTERRUMPIDA A LOS MÉTODOS UPDATE(), DRAW() Y CONTROL().
     */
     override fun run() {
-        while (playing) {
-            update()
-            draw()
-            control()
-            if(contadorBolas==0){
-                initializeBalls()
-            }
-
-        }
+                while (playing) {
+                    update()
+                    draw()
+                    if (contadorBolas == 0) {
+                        initializeBalls()
+                    }
+                }
     }
     /* update()
     ACTUALIZARÁ LA POSICIÓN DE CADA UNA DE LAS BOLAS DE LA PANTALLA.
@@ -134,13 +136,14 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
     BLOQUEO Y DESBLOQUEO MIENTRAS SE PINTA.
      */
     private fun draw() {
-        if (holder.surface.isValid) {
-            val canvas = holder.lockCanvas()
+        if (surfaceView.holder.surface.isValid) {
+            val canvas = surfaceView.holder.lockCanvas()
+            canvas.drawColor(Color.WHITE)
             drawSquares(canvas)
             drawScore(canvas) // Dibujar el puntaje
             balls.forEach { drawBall(canvas, it) }
             ball1?.let { drawBall1(canvas, it) }
-            holder.unlockCanvasAndPost(canvas)
+            surfaceView.holder.unlockCanvasAndPost(canvas)
         }
     }
 
@@ -255,48 +258,54 @@ class GameV (context: Context) : SurfaceView(context), SurfaceHolder.Callback, R
        SE UBICA-POSICIONA EL OBJETO BOLA Y SE INICIALIZAN LOS "SQUARES"
     */
     override fun surfaceCreated(holder: SurfaceHolder) {
-        ball1 = Ball(x = width / 4f, y = height / 2f,6f,6f,20f,Color.RED)
+        ball1 = Ball(x = 1000f / 4f, y = 6000f / 4f,8f,8f,20f,Color.RED)
         initializeBalls()
 
+        this.height = surfaceView.holder.surfaceFrame.height()
+        this.width = surfaceView.holder.surfaceFrame.width()
         initializeSquares(width, height)
-        resume() // Comenzar el juego cuando la superficie esté creada
     }
     private fun initializeBalls() {
-        var numal: Int = Random.nextInt(3, 6)
+        var numal: Int = Random.nextInt(3, 6+1)
         contadorBolas = numal
         Log.d("NUMERO DE BOLAS",contadorBolas.toString())
         if(contadorRondas>=1){
             multVelocidad += 2
         }
         for(i in 1..numal){
-            var radio: Float = (25..50).random().toFloat()
+            var radio: Float = (25..40).random().toFloat()
             var randx: Float = (2..4).random().toFloat()
             var randy: Float = (2..4).random().toFloat()
-            var dirx: Float = (-6..-3).random().toFloat()
+            var dirx: Float = (-6..6).random().toFloat()
             var diry:Float = (-6..-3).random().toFloat()
+            Log.d("CONTADOR RONDAS",contadorRondas.toString())
+            if(contadorRondas==0){
+                if(dirx<=0){
+                    dirx-=3
+                }else if(dirx>0){
+                    dirx+3
+                }
+                diry-=3
+            }
+            Log.d("Bola"+i,dirx.toString())
+            Log.d("Bola"+i,diry.toString())
+
             if(contadorRondas>=1){
              dirx *= multVelocidad.toFloat()
              diry *= multVelocidad.toFloat()
             }
             Log.d("VELOCIDAD X",dirx.toString())
             Log.d("Multiplicador VEL",multVelocidad.toString())
-            var ball = Ball(x = width / randx, y = height / randy, dx = dirx, dy = diry, radius = radio,color = colores.random())
+            var ball = Ball(x = 2000f / randx, y = 3000f / randy, dx = dirx, dy = diry, radius = radio,color = colores.random())
             balls.add(ball)
         }
         contadorRondas++
-    // Agregar más bolas si es necesario
-        // No son formas de agregar bolas a la partida, pero es que tenía "prisa"
     }
-    /* surfaceDestroyed(holder: SurfaceHolder)
-       EN CASO DE QUE LA SUPERFICIE SEA DESTRUIDA POR UN FACTOR EXTERNO
-    */
+
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         pause() // Pausar el juego cuando la superficie sea destruida
     }
 
-    /* initializeSquares(width: Int, height: Int)
-    SE INICIALIZAN LOS "SQUARES" (MATRIZ DE SQUARES) EN FUNCIÓN DEL WIDTH Y EL HEIGHT
-     */
     private fun initializeSquares(width: Int, height: Int) {
         val numSquaresX = (width / squareSize).toInt()
         val numSquaresY = (height / squareSize).toInt()

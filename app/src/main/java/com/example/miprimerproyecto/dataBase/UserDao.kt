@@ -13,6 +13,9 @@ interface UserDao {
     @Query("SELECT * FROM usuarios WHERE username LIKE :username")
     fun findByName(username: String): User
 
+    @Query("UPDATE usuarios SET record = :record, total = :total WHERE username = :username")
+    fun updateRecordAndTotal(username: String, record: Int, total: Int)
+
     @Insert
     fun insertUser(user: User)
 
@@ -21,4 +24,5 @@ interface UserDao {
 
     @Delete
     fun delete(user: User)
+
 }

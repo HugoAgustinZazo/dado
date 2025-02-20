@@ -51,7 +51,7 @@ class RegistroActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java,"bd_haz_v2").build()
+        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java,"bd_haz_v4").build()
         val userDao = db.userDao()
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -174,7 +174,7 @@ class RegistroActivity : AppCompatActivity() {
                     }
                         if(user==null){
                             var fecha: String = "" + dianac + "/" + mesnac + "/" + añonac
-                            val usuario = User(username = username, password = password, fechanac = fecha,avatar)
+                            val usuario = User(username = username, password = password, fechanac = fecha,avatar,0,0)
                             withContext(Dispatchers.IO) {
                                 userDao.insertUser(usuario)
                             }

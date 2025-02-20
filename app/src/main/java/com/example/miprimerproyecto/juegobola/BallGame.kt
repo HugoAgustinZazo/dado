@@ -1,6 +1,9 @@
 package com.example.miprimerproyecto.juegobola
 
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,25 +14,60 @@ import com.example.miprimerproyecto.databinding.ActivityBallGameBinding
 class BallGame : AppCompatActivity() {
     lateinit var binding: ActivityBallGameBinding
     private lateinit var game: GameV
+    private var playing = false
+    private var empezar = true
+    private lateinit var soundPool: SoundPool
+    private var soundId = 0
+    private var streamId = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBallGameBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
+        game = GameV(this, binding.surfaceView)
         setContentView(binding.root)
-        setContentView(R.layout.activity_ball_game)
+        soundPool = SoundPool.Builder().setMaxStreams(1).setAudioAttributes(
+            AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(
+                AudioAttributes.CONTENT_TYPE_MUSIC).build()
+        ).build()
+        soundId = soundPool.load(this,R.raw.musica,1)
 
-        game = GameV(this)
-        setContentView(game)
+        soundPool.setOnLoadCompleteListener{ _, sampleId, _ ->
+            if (sampleId==soundId){
+                playMusic()
+            }
+        }
+
+        binding.button15.setOnClickListener(){
+                 if(empezar){
+                     empezar = false
+                     game.resume()
+                 }
+                if (playing) {
+                    game.pause()
+                    playing = false
+                    binding.button15.text = "Resume Game"
+                } else {
+                    game.resume()
+                    playing = true
+                    binding.button15.text = "Pause Game"
+                }
+
+
+            }
+
+        binding.button16.setOnClickListener(){
+
+
+        }
+
+
     }
-
-    override fun onResume() {
-        super.onResume()
-        game.resume()
+    private fun playMusic(){
+        streamId = soundPool.play(soundId, 1f, 1f, 1, -1, 1f)
     }
-
-    override fun onPause() {
-        super.onPause()
-        game.pause()
+    override fun onDestroy() {
+        super.onDestroy()
+        soundPool.release()
     }
 
 }

@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         }
         userPreferences = UserPreferences(applicationContext)
         observeData()
-        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java, "bd_haz_v2").build()
+        val db = Room.databaseBuilder(applicationContext, UsuariosDataBase::class.java, "bd_haz_v4").build()
         val userDao = db.userDao()
         binding.textView6.textSize = 20F
         binding.textView7.textSize = 20F
