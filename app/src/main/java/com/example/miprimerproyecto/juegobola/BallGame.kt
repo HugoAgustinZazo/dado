@@ -45,6 +45,8 @@ class BallGame : AppCompatActivity() {
 
         username = intent.getStringExtra("username").toString()
         avatar = intent.getStringExtra("avatar").toString()
+        binding.textView30.setText("Usuario: "+username)
+
         soundPool = SoundPool.Builder().setMaxStreams(1).setAudioAttributes(
             AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(
                 AudioAttributes.CONTENT_TYPE_MUSIC).build()
@@ -73,6 +75,8 @@ class BallGame : AppCompatActivity() {
         }
 
         binding.button15.setOnClickListener(){
+            binding.linear2.visibility = View.GONE
+            binding.textView29.visibility = View.GONE
                  if(empezar){
                      empezar = false
                      game.resume()
